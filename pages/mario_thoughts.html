@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>超级玛丽行走功能简单设计思路及感想</title>
+		<link rel="stylesheet" type="text/css" href="../css/articles_set.css" />
+	</head>
+	<body>
+		<h>超级玛丽行走功能简单设计思路及感想</h>
+		<div class="words">
+			<p>1.CREATING<br/><br/>
+
+				 创建数组marioImages，并将六张图片的url值存入。<br/>
+				 在画布上创建名为marioImage 的图像。<br/>
+				 创建类Mario(x)，其中x值为其在画布上的x值。并创建对象mario，赋其初始值为10。<br/>
+			</p><br/>
+			<p>2.ABOUT CLASS MARIO<br/><br/>
+
+				设置x，speed初始值。<br/>
+				设置方法left(), right()。<br/>
+				设置方法imageRight(), imageLeft()。<br/>定义变量num并赋其初始值为零，用于控制数组marioImages的数组下标(0～2为方向向右的三张图片url值，3～5为方向向左的三张图片url值)，轮流显示图片以达到走动效果。<br/>
+			</p><br/>
+			<P>
+				3.ABOUT FUNCTIONS<br/><br/>
+
+				1). 创建函数drawMario(obj)，用于绘制图像<br/>
+				2). 关于操作：<br/>
+				   键盘：创建函数move()，按键即触发，利用keyCode获取按键的值，再利用switch使相应的按键触发相应的走动操作以及效果（按住之后图标透明度变为70%），松开按键后停止走动且图标透明度变回正常。<br/>
+				   鼠标／手机端：为方便手机端操作，利用onmouseover以及onmouseout创建函数，定义定时器longPress，当onmouseover触发定时器使其走动，当onmouseout时清除定时器时起停止行动，图标透明度同理键盘。<br/>
+				3). 创建函数clear()，清除画布并重新绘制mario。使用setInterval每50毫秒调用一次以达到位移效果。
+				<br/>
+			</P><br/>
+			<p>4. FINALLY  (具体代码详见本人git)<br/>
+				本来是在网上看到了三张超级玛丽的走路动作分解图，于是灵感涌现突发奇想打算亲自写点代码在画布上实现超级玛丽行走功能。<br/>
+				最开始的思路还是有点乱的，把3张图备份并分别水平翻转一次变成了6张，把超级玛丽的原始图绘制到了画布上，实现了再获取按键使它移动，刷新画布等功能。可是还要让它看起来在走动，那么先来写向右走的代码！于是就有了变量num，用if else循环控制图片切换url。当num不符合小于2时就重置其值为0。向右的可以了，那么向左的也同理。这时候的代码时这样的（比如向右，三张图片的url分别为r1.jpg,r2.jpg,r3.jpg）：<br/>
+				 var marioImage = new Image();<br/>
+				this.imageRight = function(){<br/>
+				 if(num >= 0 && num < 2) num++;<br/>
+						else num = 0;<br/>
+						marioImage.src = "images/r" +num+”.jpg”;<br/>
+				}<br/>
+				虽然没什么错误但有种说不上来的感觉，总觉得这样的代码似乎有点蠢，便想把这几个图片的url整合起来，想到了数组于是代码变成了这样（还是以向右的为例）：<br/>
+				var marioImages = ['r1.png','r2.png','r3.png','l1.png','l2.png','l3.png'];<br/>
+				var marioImage = new Image();<br/>
+							this.imageRight = function(){<br/>
+						if(num >= 0 && num < 2) num++;<br/>
+						else num = 0;<br/>
+						marioImage.src = "images/" + marioImages[num];	<br/>
+					}<br/>
+				总是喜欢钻一些细节，感觉这样代码可读性高些。<br/>
+				然后就是对操作的设定，键盘的已经设计完于是又试着添加手机端和鼠标操作。因为代码写得有点乱，于是重新整理了一遍js的代码(多敲一遍代码多一份收获和理解)，把该封装到函数里面的方法都封装到里面，让代码看起来整洁些。最初的草稿js最开始有留着，想对比下前后两遍代码思路的差异，以及写代码时需要改正的缺点，这样以后敲代码就可以有更清晰的思路。不过还没等留着传到git上就被我不小心删掉了QAQ可惜。
+			</p>
+		</div>
+	</body>
+</html>
